@@ -1,0 +1,56 @@
+﻿@model WebApplication4.Models.Account
+@{
+    ViewBag.Title = "Cập nhật thông tin";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutLogin.cshtml";
+    var admin = Session["Admin"] as WebApplication4.Models.Account;
+}
+
+<div class="container my-4">
+    <form class="w-100" method="post" action="/Admin/Account/Update_Account">
+        <h2>Cập nhật thông tin (Admin)</h2>
+        <hr />
+        <div class="row">
+            <div class="col-md-12">
+                <label class="form-label">Họ và tên</label>
+                <input class="form-control" name="HoTen" value="@admin.HoTen" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label class="form-label">Số điện thoại</label>
+                <input class="form-control" name="SoDienThoai" value="@admin.SoDienThoai" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label class="form-label">Email</label>
+                <input class="form-control" name="Email" value="@admin.Email" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label class="form-label">Địa chỉ</label>
+                <input class="form-control" name="DiaChi" value="@admin.DiaChi" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label class="form-label">Giới tính</label>
+                <select class="form-control" name="GioiTinh">
+                    @if (admin.GioiTinh == 1)
+                    {
+                        <option selected value="1">Nam</option>
+                        <option value="0">Nữ</option>
+                    }
+                    else
+                    {
+                        <option value="1">Nam</option>
+                        <option selected value="0">Nữ</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn bg-primary pull-right my-4">Cập nhật</button>
+    </form>
+</div>
+

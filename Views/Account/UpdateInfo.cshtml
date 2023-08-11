@@ -1,0 +1,56 @@
+﻿@model WebApplication4.Models.Account
+@{
+    ViewBag.Title = "UpdateInfo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<<div class="container" style="min-height: 80vh">
+    <form class="w-100" method="post" action="/Account/UpdateInfo">
+        <h2>Cập nhật thông tin</h2>
+        <hr />
+        <div class="row">
+            <div class="col-md-12">
+                <label class="form-label">Họ và tên</label>
+                <input class="form-control" name="HoTen" value="@Model.HoTen" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label class="form-label">Số điện thoại</label>
+                <input class="form-control" name="SoDienThoai" value="@Model.SoDienThoai" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label class="form-label">Email</label>
+                <input class="form-control" name="Email" value="@Model.Email" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label class="form-label">Địa chỉ</label>
+                <input class="form-control" name="DiaChi" value="@Model.DiaChi" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label class="form-label">Giới tính</label>
+                <select class="form-control" name="GioiTinh">
+                    @if (Model.GioiTinh == 1)
+                    {
+                        <option selected value="1">Nam</option>
+                        <option value="0">Nữ</option>
+                    }
+                    else
+                    {
+                        <option value="1">Nam</option>
+                        <option selected value="0">Nữ</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn bg-primary pull-right my-4">Cập nhật</button>
+    </form>
+</div>
+
+

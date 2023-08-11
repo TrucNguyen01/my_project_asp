@@ -1,0 +1,69 @@
+﻿@model List<WebApplication4.Models.DonHang>
+@{
+    ViewBag.Title = "Đơn hàng";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+}
+
+<div class="container pt-2" id="order">
+    <div class="d-flex justify-content-between pull-right mb-4" style="width: 30%">
+        <a href="/Admin/DonHang/DonHangThanhCong" class="btn text-success bg-success-subtle active">Đơn giao thành công</a>
+        <a href="/Admin/DonHang/DonHangHuy" class="btn text-danger bg-danger-subtle">Đơn hàng bị huỷ</a>
+    </div>
+    <table class="table table-hover">
+        <tr>
+            <th>ID</th>
+            <th>Khách hàng</th>
+            <th>Địa chỉ</th>
+            <th>Số điện thoại</th>
+            <th>Tổng tiền</th>
+            <th>Ngày tạo</th>
+            <th>Trạng thái</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr v-on:click="DonHang(@item.id_DonHang)" style="cursor: pointer">
+                <td>@item.id_DonHang</td>
+                <td>@item.TenKhachHang</td>
+                <td>@item.DiaChi</td>
+                <td>@item.SoDienThoai</td>
+                <td>@item.TongTien</td>
+                <td>@item.NgayTao</td>
+                <td class="text-success">Giao thành công</td>
+            </tr>
+        }
+        <tr>
+            <th colspan="7">
+                <ul class="pagination">
+                    @for (int i = 0; i < ViewBag.SoTrang; i++)
+                    {
+                        if ((i + 1) == ViewBag.Index)
+                        {
+                            <li class="active">
+                                <a class="btn bg-primary mx-1 text-white" href="/Admin/SanPham/Index?index=@(i + 1)&value=@ViewBag.value">@(i + 1)</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a class="btn bg-primary-subtle mx-1 text-white" href="/Admin/SanPham/Index?index=@(i + 1)&value=@ViewBag.value">@(i + 1)</a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </th>
+        </tr>
+    </table>
+</div>
+@section scripts{
+    <script>
+        const { createApp, ref } = Vue;
+        createApp({
+            methods: {
+                DonHang: function (id) {
+                    window.location = "/Admin/DonHang/ChiTietDonHang/" + id;
+                }
+            }
+        }).mount('#order');
+    </script>
+}
+

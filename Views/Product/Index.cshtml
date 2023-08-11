@@ -1,0 +1,103 @@
+﻿@model List<WebApplication4.Models.SanPham>
+@{
+    ViewBag.Title = "Sản phẩm";
+}
+<style>
+    table tr:hover{
+        cursor: pointer;
+    }
+</style>
+<div class="container scale_img" style="height: auto" id="test">
+    <div class="row" style="height: 100%">
+        <div class="col-md-3 bg-body-tertiary" style="height: 100%">
+            <div style="margin-top: 20px">
+                 <h3>Danh sách sản phẩm</h3>
+                <table class="table table-hover">
+                    <tr><th><a href="/Product/Index?loai=dienthoai">Điện thoại</a></th></tr>
+                    <tr><th><a href="/Product/Index?loai=maytinh">Máy tính</a></th></tr>
+                    <tr><th><a href="/Product/Index?loai=phukien">Phụ kiện</a></th></tr>
+                </table>
+            </div>
+            <hr />
+            <div>
+                <h3>Sản phẩm nổi bật</h3>
+                <table class="table">
+                    @foreach(var item in (List<WebApplication4.Models.SanPham>)ViewBag.ds_giamgia)
+            {
+                <tr>
+                    <th rowspan="2">
+                        <a href="/DetailProduct/Index/@item.id_sanpham"><img style="height: 100px; width: 90px; margin: 4px" src="~/image/@item.Avatar" /></a>
+                    </th>
+                    <th style="font-size: 12px">
+                        @item.TenSanPham
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <div class="card-text" style="display: flex">
+                            <p style="color: red; margin-right: 10px">@item.GiaBan</p>
+                            <p style="text-decoration: line-through; opacity: 0.6; font-size: 12px">@item.Gia.ToString("N0")</p>
+                        </div>
+                    </th>
+                </tr>
+            }
+                </table>
+            </div>
+        </div>
+        <div class="col-md-9" style="height: 100%">
+            <div class="d-flex justify-content-between">
+                <h2 style="margin-top: 10px">Tất cả sản phẩm</h2>
+                <select class="bg-body-secondary" style="width: 300px; height: 30px; border: none; outline: none; border-radius: 15px; margin-top: 20px" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                    <option>Lựa chọn chức năng</option>
+                    <option value="?loai=@ViewBag.loai&value=giatang&search=@ViewBag.search">Giá tăng dần</option>
+                    <option value="?loai=@ViewBag.loai&value=giagiam&search=@ViewBag.search">Giá giảm dần</option>
+                    <option value="?loai=@ViewBag.loai&value=banchay&search=@ViewBag.search">Bán chạy nhất</option>
+                    <option value="?loai=@ViewBag.loai&value=moinhat&search=@ViewBag.search">Sản phẩm mới nhất</option>
+                    <option value="?loai=@ViewBag.loai&value=cunhat&search=@ViewBag.search">Sản phẩm cũ nhất</option>
+                    <option value="?loai=@ViewBag.loai&value=tenaz&search=@ViewBag.search">Sắp xếp A -> Z</option>
+                    <option value="?loai=@ViewBag.loai&value=tenza&search=@ViewBag.search">Sắp xếp Z -> A</option>
+                </select>
+            </div>
+            <hr />
+            <div style="width: 100%; margin-top: 10px">
+                <div class="auto_wrap" style="width: 100%;">
+                    @foreach (var item in Model)
+                    {
+                        <div style="width: 18%; margin: 0.4% 1%">
+                            <table>
+                                <tr style="height: 160px; text-align: center"><th><a href="/DetailProduct/Index/@item.id_sanpham"><img style="height: 140px; width: 120px" class="card-img-top mx-auto" src="~/image/@item.Avatar" /></a></th></tr>
+                                <tr style="height: 80px; text-align: center"><th><div class="card-title" style="font-size: 13px; font-weight:bold">
+                                        @item.TenSanPham
+                                    </div>
+                                </th></tr>
+                                <tr><th>
+                                    <div class="card-text" style="display: flex">
+                                        <p style="color: red; margin-right: 10px">@item.GiaBan</p>
+                                        <p style="text-decoration: line-through; opacity: 0.6; font-size: 12px">@item.Gia.ToString("N0")</p>
+                                    </div>
+                                </th></tr>
+                            </table>
+                        </div>
+                    }
+                </div>
+                <div class="container d-flex align-items-center justify-content-center" style="margin-top: 20px">
+                        @for (int i = 0; i < ViewBag.SoTrang; i++)
+                        {
+                            if ((i + 1) == ViewBag.Index)
+                            {
+                            <div class="active" style="margin: 4px">
+                                <button class="bg-primary btn"><a href="/Product/Index?index=@(i + 1)&search=@ViewBag.search&loai=@ViewBag.loai">@(i + 1)</a></button>
+                            </div>
+                            }
+                            else
+                            {
+                            <div>
+                                <button style="margin: 4px" class="btn bg-dark-subtle"><a href="/Product/Index?index=@(i + 1)&search=@ViewBag.search&loai=@ViewBag.loai">@(i + 1)</a></button>
+                            </div>
+                            }
+                        }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

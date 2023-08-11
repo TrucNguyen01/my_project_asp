@@ -1,0 +1,363 @@
+﻿@model WebApplication4.Models.SanPham
+@{
+    ViewBag.Title = "Chi tiết sản phẩm";
+    var cauhinh = (WebApplication4.Models.CauHinh)ViewBag.cauhinh;
+    var query = (List<WebApplication4.Models.PhanHoi>)ViewBag.phanhoi_comment;
+}
+
+<div class="container" style="min-height: 800px" id="detai_product">
+    <div class="d-flex" style="height: 60px">
+        <h4><a href="/Product/Index">Sản phẩm</a> /</h4>
+        <h4 style="font-size: 15px; margin-top: 8px"> @ViewBag.TenSanPham</h4>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div>
+                <img style="height: 450px; width: 380px" v-bind:src="'/image/'+link" />
+            </div>
+            @if (Model.LoaiSanPham != 3)
+            {
+                <div class="d-flex justify-content-center align-items-center scale_img" style="height: 80px; margin-top: 20px">
+                    <p class="mx-2 my-auto" v-for="(img, index) in arr">
+                        <img v-on:click="changeImg(index)" style="height: 60px; width: 56px" v-bind:src="'/image/'+img.url" />
+                    </p>
+                </div>
+            }
+        </div>
+        <div class="col-md-5 buy_product">
+            <h2>@Model.TenSanPham</h2>
+            <div class="d-flex" style="height: 80px">
+                <p class="my-auto mx-4">Giá bán: </p>
+                <h1 class="my-auto text-danger">@Model.GiaBan</h1>
+                <p class="my-auto mx-3" style="text-decoration: line-through; opacity: 0.6; font-size: 22px">@Model.Gia.ToString("N0")</p>
+            </div>
+            <div class="d-flex" style="height: 40px">
+                <p class="mx-4 my-auto">Tình trạng: </p>
+                @if (Model.SoLuong == 0)
+                {
+                    <h3 class="text-danger">Hết hàng</h3>
+                }
+                else
+                {
+                    <h3 class="text-success">Còn hàng</h3>
+                }
+            </div>
+            <div class="d-flex" style="height: 40px">
+                <p class="mx-4 my-auto">Đã bán: </p>
+                <h3 class="text-success">@Model.SoLuongMua</h3>
+                <p class="mx-4 my-auto">Sản phẩm</p>
+            </div>
+            <div class="d-flex" style="height: 80px">
+                <p class="my-auto mx-4">Số lượng:</p>
+                <button class="btn bg-info" style="font-size: 25px; border: none;outline: none;cursor: pointer" id="down"><i class="fa fa-minus"></i></button>
+                <input class="my-auto input_value" readonly style="width: 50px; height: 50px;font-size: 30px;padding-left: 16px" name="quantity" type="text" id="soluong" value="1">
+                <button class="btn bg-info" style="font-size: 25px;border: none;outline: none;cursor: pointer;" id="up"><i class="fa fa-plus"></i></button>
+            </div>
+            <div class="d-flex" style="height: 100px">
+                @if (Model.SoLuong != 0)
+                {
+                    <form class="my-auto" action="/Cart/Add_Product" method="post">
+                        <input hidden name="SoLuongBan" class="input_value" value="1" />
+                        <input hidden name="id_sanpham" value="@Model.id_sanpham" />
+                        <input hidden name="DonGiaBan" value="@Model.GiaBan" />
+                        <button type="submit" class="bg-danger" style="height: 40px; width: 200px; border: none">Thêm vào giỏ hàng <i class="fa fa-shopping-cart"></i></button>
+                    </form>
+                    <form class="my-auto mx-4" action="/Cart/Buy_Product" method="post">
+                        <input hidden name="SoLuongBan" class="input_value" value="1" />
+                        <input hidden name="id_sanpham" value="@Model.id_sanpham" />
+                        <input hidden name="DonGiaBan" value="@Model.GiaBan" />
+                        <button type="submit" class="bg-danger" style="height: 40px; width: 200px; border: none">Mua hàng</button>
+                    </form>
+                }
+                else
+                {
+                    <button class="bg-danger-subtle my-4 mx-4" style="height: 40px; width: 200px; border: none">Thêm vào giỏ hàng <i class="fa fa-shopping-cart"></i></button>
+                    <button class="bg-danger-subtle my-4" style="height: 40px; width: 200px; border: none">Mua hàng</button>
+                }
+            </div>
+        </div>
+        <div class="col-md-3">
+            <table style="text-align: center">
+                <caption style="margin-bottom: 20px;"><h3>Chúng tôi luôn sẵn sàng để giúp đỡ bạn</h3></caption>
+                <tr><th><img style="height: 150px; width: 200px;margin-bottom: 10px;" src="https://social.sgp1.digitaloceanspaces.com/blog/1656404178_Nho-co-ung-dung-cham-soc-khach-hang-da-kenh-chat-luong-cham-soc-duoc-cai-thien-va-nang-cao-hon.jpg" alt=""></th></tr>
+                <tr><th><p>Để được hỗ trợ tốt nhất hãy gọi</p></th></tr>
+                <tr><th><i style="color: limegreen; font-size: 30px;">1800 1009</i></th></tr>
+                <tr><th><p>Hoặc</p></th></tr>
+                <tr><th style="margin-top: 4px;">Chát hỗ trợ trực tiếp</th></tr>
+                <tr><th><p style="margin-top: 8px;line-height: 20px;">Chúng tôi luôn sẵn sàng giúp đỡ bạn</p></th></tr>
+            </table>
+        </div>
+    </div>
+
+
+    @if (Model.LoaiSanPham != 3)
+    {
+        <div class="row" style="margin-top: 50px; font-size: 20px">
+            <div class="col-md-7">
+                <h1>Mô tả sản phẩm: </h1>
+                <hr />
+                <p>@Model.MoTa</p>
+                <img style="width: 100%" src="~/image/@cauhinh.HinhAnh_Camera" />
+                <p>@cauhinh.NoiDung_Camera</p>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-4 shadow" style="font-size: 18px">
+                <table class="table">
+                    <tr>
+                        <td>Màn hình</td>
+                        <td>@cauhinh.ManHinh</td>
+                    </tr>
+                    <tr>
+                        <td>Độ phân giải</td>
+                        <td>@cauhinh.DoPhanGiai</td>
+                    </tr>
+                    <tr>
+                        <td>Công nghệ màn hình</td>
+                        <td>@cauhinh.CongNgheManHinh</td>
+                    </tr>
+                    <tr>
+                        <td>RAM</td>
+                        <td>@cauhinh.RAM</td>
+                    </tr>
+                    <tr>
+                        <td>Bộ nhớ</td>
+                        <td>@cauhinh.BoNho</td>
+                    </tr>
+                    <tr>
+                        <td>Chất liệu</td>
+                        <td>@cauhinh.ChatLieu</td>
+                    </tr>
+                    <tr>
+                        <td>Kích thước</td>
+                        <td>@cauhinh.KichThuoc</td>
+                    </tr>
+                    <tr>
+                        <td>Trọng lượng</td>
+                        <td>@cauhinh.TrongLuong</td>
+                    </tr>
+                    <tr>
+                        <td>Camera</td>
+                        <td>@cauhinh.Camera</td>
+                    </tr>
+                    <tr>
+                        <td>Pin</td>
+                        <td>@cauhinh.Pin</td>
+                    </tr>
+                    <tr>
+                        <td>CPU</td>
+                        <td>@cauhinh.CPU</td>
+                    </tr>
+                    <tr>
+                        <td>Chip</td>
+                        <td>@cauhinh.Chip</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row" style="font-size: 20px">
+            <div class="col-md-12">
+                <h3>CPU:</h3>
+                <hr />
+                <img style="width: 90%; margin-left: 5%" src="~/image/@cauhinh.HinhAnh_CPU" />
+                <p style="width: 90%; margin-left: 5%; margin-top: 20px">@cauhinh.NoiDung_CPU</p>
+            </div>
+        </div>
+        <div class="row" style="font-size: 20px">
+            <div class="col-md-12">
+                <h3>Pin:</h3>
+                <hr />
+                <img style="width: 90%; margin-left: 5%" src="~/image/@cauhinh.HinhAnh_Pin" />
+                <p style="width: 90%; margin-left: 5%; margin-top: 20px">@cauhinh.NoiDung_Pin</p>
+            </div>
+        </div>
+        <div class="row" style="font-size: 20px">
+            <div class="col-md-12">
+                <h3>RAM:</h3>
+                <hr />
+                <img style="width: 90%; margin-left: 5%" src="~/image/@cauhinh.HinhAnh_RAM" />
+                <p style="width: 90%; margin-left: 5%; margin-top: 20px">@cauhinh.NoiDung_RAM</p>
+            </div>
+        </div>
+    }
+    else
+            {
+                <div class="row">
+                    <div class="col-md-8">
+                        <h1>Mô tả sản phẩm: </h1>
+                        <hr />
+                        <p>@Model.MoTa</p>
+                    </div>
+                </div>
+            }
+
+
+    <div class="row" style="margin-top: 50px">
+        <div class="col-md-12" style="width: 100%;">
+            <h2 class="text-danger">Top sản phẩm bán chạy nhất</h2>
+            <hr />
+            <div class="d-flex">
+                @foreach (var item in (List<WebApplication4.Models.SanPham>)ViewBag.sp_banchay)
+                {
+                    <div style="width: 16%; margin: 0 0.3%">
+                        <div class="card scale_img" style="border: none">
+                            <a href="/DetailProduct/Index/@item.id_sanpham"><img style="height: 200px" class="card-img-top" src="~/image/@item.Avatar" /></a>
+                            <div class="card-body" style="margin-top: 15px">
+                                <div class="card-title">
+                                    @item.TenSanPham
+                                </div>
+                                <div class="card-text" style="display: flex">
+                                    <p style="color: red; margin-right: 10px">@item.GiaBan</p>
+                                    <p style="text-decoration: line-through; opacity: 0.6; font-size: 12px">@item.Gia.ToString("N0")</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="row" id="comment">
+        <div class="col-md-12">
+            <h2 class="text-danger">Phản hồi sản phẩm</h2>
+            <hr />
+            <div>
+                <form class="w-100 d-flex" method="post" action="/DetailProduct/Comment">
+                    <textarea name="NoiDung" class="form-control" style="width: 80%; border-radius: 10px" rows="5" placeholder="Nhập nội dung bạn muốn phản hồi"></textarea>
+                    <button class="btn bg-danger text-white mx-4" style="height: 40px"><i class="fa fa-paper-plane"></i> Gửi</button>
+                </form>
+            </div>
+            <hr />
+            <div id="test" class="shadow" style="min-height: 500px; width: 100%">
+                @foreach (var item in (List<WebApplication4.Models.Comment>)ViewBag.ds_comment)
+                {
+                    <div class="w-100">
+                        <div class="d-flex mx-4 pt-4">
+                            <i style="font-size: 40px" class="fa fa-user-circle"></i>
+                            <p class="my-auto mx-2">@item.Account.HoTen</p>
+                        </div>
+                        <div class="container" style="width: 90%; margin-left: 5%">
+                            @item.NoiDung
+                            <div class="d-flex" style="font-size: 12px; opacity: 0.8;">
+                                @item.NgayTao.ToString("dd/MM/yyyy")
+                                <p v-on:click="PhanHoi_Comment = !PhanHoi_Comment" class="mx-4" style="cursor: pointer">Phản hồi</p>
+                            </div>
+                            <div v-if="PhanHoi_Comment">
+                                <form class="w-100 d-flex" method="post" action="/DetailProduct/PhanHoi">
+                                    <input name="id_comment" value="@item.id_comment" hidden />
+                                    <textarea name="NoiDung" class="form-control" style="width: 80%; border-radius: 10px" rows="5" placeholder="Nhập nội dung bạn muốn phản hồi"></textarea>
+                                    <button class="btn bg-danger text-white mx-4" style="height: 40px"><i class="fa fa-paper-plane"></i> Gửi</button>
+                                </form>
+                                <hr />
+                            </div>
+                        </div>
+                    </div>
+                    var list_phanhoi = query.Where(row => row.id_comment == item.id_comment).ToList();
+
+                    <div style="width: 90%; margin-left: 5%">
+                        @foreach (var item_phanhoi in list_phanhoi)
+                            {
+                            <div class="w-100">
+                                <div class="d-flex mx-4 pt-2">
+                                    <i style="font-size: 40px" class="fa fa-user-circle"></i>
+                                    <p class="my-auto mx-2">
+                                        @if(item_phanhoi.Account.role == 0)
+                                            {
+                                                <p class="my-auto">@item_phanhoi.Account.HoTen</p>
+                                            }
+                                            else
+                                            {
+                                                <p class="my-auto">Admin</p>
+                                            }
+                                    </p>
+                                </div>
+                                <div class="container" style="width: 90%; margin-left: 5%">
+                                    @item_phanhoi.NoiDung
+                                    <div style="font-size: 12px; opacity: 0.8">
+                                        @item_phanhoi.NgayPhanHoi
+                                    </div>
+                                </div>
+                            </div>
+                            }
+                    </div>
+                 }
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        var soLuongMua = document.getElementById('soluong').value;
+        $(document).ready(function () {
+            $('body').on('click', '#down', function () {
+                if (soLuongMua > 1) {
+                    soLuongMua--;
+                }
+                else {
+                    soLuongMua = 1;
+                }
+                $(this).closest('.buy_product').find('.input_value').val(soLuongMua);
+            });
+            $('body').on('click', '#up', function () {
+                if (soLuongMua < @Model.SoLuong) {
+                    soLuongMua++;
+                }
+                else {
+                    soLuongMua = @Model.SoLuong;
+                }
+                $(this).closest('.buy_product').find('.input_value').val(soLuongMua);
+            });
+        });
+    </script>
+}
+
+@if (Model.LoaiSanPham != 3)
+{
+   
+        <script>
+
+        const { createApp, ref } = Vue;
+        createApp({
+            data() {
+                return {
+                    link: "@Model.Avatar",
+                    arr: [
+                        { url: "@Model.Avatar" },
+                        { url: "@cauhinh.HinhAnh_CPU" },
+                        { url: "@cauhinh.HinhAnh_Camera" },
+                        { url: "@cauhinh.HinhAnh_Pin" },
+                        { url: "@cauhinh.HinhAnh_RAM" }
+                    ],
+                    PhanHoi_Comment: false
+                }
+            },
+            methods: {
+                changeImg: function(index) {
+                    this.link = this.arr[index].url;
+                }
+            }
+        }).mount('#detai_product');
+
+        </script>
+    
+}
+else
+{
+   
+        <script>
+
+        const { createApp, ref } = Vue;
+        createApp({
+            data() {
+                return {
+                    link: "@Model.Avatar",
+                }
+            }
+        }).mount('#detai_product');
+
+        </script>
+    
+}
+
+

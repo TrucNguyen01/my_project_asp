@@ -1,0 +1,97 @@
+﻿@model List<WebApplication4.Models.DonHang>
+@{
+    ViewBag.Title = "Thông tin đơn hàng";
+}
+
+<div class="container bg-body-tertiary mt-4" style="min-height: 80vh" id="order">
+    <h3 class="my-2 pt-2 mx-2">Danh sách đơn hàng</h3>
+    <a href="/Order/DonHangThanhCong" class="btn bg-primary pull-right my-3">Danh sách đơn hàng đã mua</a>
+    <table class="table table-hover">
+        <tr>
+            <th>ID</th>
+            <th>Tên khách hàng</th>
+            <th>Số điện thoại</th>
+            <th>Tổng tiền</th>
+            <th>Ngày tạo</th>
+            <th>Chi tiết hoá đơn</th>
+            <th>Trang thái</th>
+            <th>Huỷ đơn hàng</th>
+            <th>Xác nhận</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+    <tr id="row_@item.id_DonHang">
+        <td>@item.id_DonHang</td>
+        <td>@item.TenKhachHang</td>
+        <td>@item.SoDienThoai</td>
+        <td>@item.TongTien</td>
+        <td>@item.NgayTao</td>
+        <td><a href="/Order/Order_Detail/@item.id_DonHang" class="btn bg-primary text-white">Xem thông tin</a></td>
+        <td class="text-warning">
+            @if (item.TrangThai == 1)
+            {
+                <p>Đang xử lý</p>
+            }
+            else if (item.TrangThai == 2)
+            {
+                <p>Đang giao hàng</p>
+            }
+        </td>
+        <td><button v-on:click="clickMe(@item.id_DonHang)" class="bg-danger btnDelete" style="border: none"><i class="fa fa-trash-o"></i></button></td>
+        <td>
+            @if (item.TrangThai == 1)
+            {
+                <a class="btn bg-primary-subtle" style="cursor: unset">Đã nhận hàng</a>
+            }
+            else if (item.TrangThai == 2)
+            {
+                <a v-on:click="ConfirmOrder(@item.id_DonHang)" class="btn bg-primary">Đã nhận hàng</a>
+            }
+        </td>
+    </tr>
+        }
+
+    </table>
+    <div>
+        <a class="btn text-white bg-primary px-4" href="/Cart/Index">Trở lại</a>
+    </div>
+</div>
+@section scripts{
+    <script>
+        const { createApp, ref } = Vue;
+        createApp({
+            methods: {
+                clickMe: function (id) {
+                    if (confirm("Bạn có muốn huỷ đơn hàng này không?") === true) {
+                        $.ajax({
+                            url: "/Order/Delete_Order",
+                            type: "POST",
+                            data: { id: id },
+                            success: function (rs) {
+                                if (rs.success) {
+                                    $('#row_' + id).remove();
+                                    alert('Huỷ đơn hàng thành công');
+                                }
+                            }
+                        });
+                    }
+                },
+                ConfirmOrder: function (id) {
+                    if (confirm("Bạn đã nhận hàng thành công ?") === true) {
+                        $.ajax({
+                            url: "/Order/ConfirmOrder",
+                            type: "POST",
+                            data: { id: id },
+                            success: function (rs) {
+                                if (rs.success) {
+                                    $('#row_' + id).remove();
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        }).mount('#order')
+    </script>
+    }
+

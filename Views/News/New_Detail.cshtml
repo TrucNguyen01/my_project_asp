@@ -1,0 +1,27 @@
+﻿@model WebApplication4.Models.TinTuc
+@{
+    ViewBag.Title = "Tin tức";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container" style="min-height: 80vh" id="test">
+    <div>
+        <a href="/Home/Index"> Trang chủ </a> / <a href="/News/Index"> Tin tức </a>
+    </div>
+    <div class="container my-4" style="width: 90%; margin-left: 5%">
+        <h1>@Model.TieuDe</h1>
+        <img class="my-4" style="width: 100%" src="~/image/@Model.HinhAnh" />
+        <div class="my-2" style="font-size: 18px">
+            @Model.GioiThieu
+        </div>
+
+        @Html.Raw(Model.NoiDung)
+        <a href="/News/Index" class="btn bg-primary text-white">Trở về</a>
+    </div>
+</div>
+
+@section scripts{
+    
+    }
+

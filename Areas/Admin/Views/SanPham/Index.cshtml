@@ -1,0 +1,85 @@
+﻿@model List<WebApplication4.Models.SanPham>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+}
+<div class="container" style="font-size: 13px; font-weight: 600">
+    <div style="display: flex; justify-content: space-between">
+        <div style="margin: 20px 0; display: flex; justify-content: space-between; width: 800px">
+            <div>
+                <form method="post" action="/Admin/SanPham/Index">
+                    <input value="@ViewBag.search" name="search" style="width: 300px; height: 34px; border: none; border-radius: 10px; outline: none" type="search" placeholder="Nhập tên sản phẩm muốn tìm kiếm" />
+                    <button style="padding: 6px 12px; border-radius: 5px" type="submit" class="bg-primary"><i class="fa fa-search"></i></button>
+                </form>
+            </div>
+            <div>
+                <select style="width: 300px; height: 30px; border: none; outline: none; border-radius: 15px" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                    <option>Lựa chọn chức năng</option>
+                    <option value="?value=dienthoai&search=@ViewBag.search">Điện thoại</option>
+                    <option value="?value=maytinh&search=@ViewBag.search">Máy tính</option>
+                    <option value="?value=phukien&search=@ViewBag.search">Phụ kiện</option>
+                    <option value="?value=giatang&search=@ViewBag.search">Giá tăng dần</option>
+                    <option value="?value=giagiam&search=@ViewBag.search">Giá giảm dần</option>
+                    <option value="?value=banchay&search=@ViewBag.search">Bán chạy nhất</option>
+                    <option value="?value=nhaphang&search=@ViewBag.search">Sản phẩm cần nhập hàng</option>
+                </select>
+            </div>
+        </div>
+        <a href="/Admin/SanPham/Insert"><button style="margin: 20px 0; padding: 4px 10px; border: none" class="pull-right bg-primary"><i class="fa fa-plus"></i> Thêm mới</button></a>
+    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Hình ảnh</th>
+                <th>Tên sản phẩm</th>
+                <th>Loại sản phẩm</th>
+                <th>Số lượng</th>
+                <th>Giá bán</th>
+                <th>Nhà cung cấp</th>
+                <th>Sửa</th>
+                <th>Xoá</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr id="row_@item.id_sanpham">
+                <td>@Html.DisplayFor(row => item.id_sanpham)</td>
+                <td><img style="height: 50px; width: 40px" src="~/image/@Html.DisplayFor(row => item.Avatar)" /></td>
+                <td>@Html.DisplayFor(row => item.TenSanPham)</td>
+                <td>@item.LoaiSP.TenLoai</td>
+                <td>@Html.DisplayFor(row => item.SoLuong)</td>
+                <td>@Html.DisplayFor(row => item.GiaBan)</td>
+                <td>@item.NhaCungCap1.TenNhaCungCap</td>
+                <td><button class="bg-warning"><i class="fa fa-wrench">@Html.ActionLink(" Chỉnh sửa", "Update", new { id = item.id_sanpham, controller = "SanPham" })</i></button></td>
+                <td>
+                    <button data-id="@item.id_sanpham" class="delete bg-danger btnDelete"><i class="fa fa-trash-o"> Xoá</i></button>
+                </td>
+            </tr>
+            }
+            <tr>
+                <th colspan="9">
+                    <ul class="pagination">
+                        @for (int i = 0; i < ViewBag.SoTrang; i++)
+                        {
+                            if ((i + 1) == ViewBag.Index)
+                            {
+                                <li class="active">
+                                    <a style="border-radius: 5px" class=" px-2 py-1 bg-primary mx-1" href="/Admin/SanPham/Index?index=@(i + 1)&value=@ViewBag.value">@(i + 1)</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a style="border-radius: 5px" class="px-2 py-1 bg-primary-subtle mx-1" href="/Admin/SanPham/Index?index=@(i + 1)&value=@ViewBag.value">@(i + 1)</a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </th>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+

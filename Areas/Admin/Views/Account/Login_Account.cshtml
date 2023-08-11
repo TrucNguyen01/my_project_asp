@@ -1,0 +1,59 @@
+﻿@model WebApplication4.Models.Account
+@{
+    ViewBag.Title = "Đăng nhập";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutLogin.cshtml";
+}
+
+<div class="container mt-4" style="height: 50vh" id="login">
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4 class="mt-5">Đăng nhập (Admin)</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.TaiKhoan, "Tài khoản", htmlAttributes: new { @class = "control-label col-md-2 mt-3 mb-2" })
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.TaiKhoan, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập thông tin tài khoản" } })
+                    @Html.ValidationMessageFor(model => model.TaiKhoan, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.MatKhau, "Mật khẩu", htmlAttributes: new { @class = "control-label col-md-2 mt-3 mb-2" })
+                <div class="col-md-12">
+                    <input class="form-control" name="MatKhau" v-bind:type="check?type_text:type_password" placeholder="Nhập thông tin mật khẩu" />
+                    @Html.ValidationMessageFor(model => model.MatKhau, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="mt-2">
+                <input type="checkbox" v-model="check" />Hiển thị mật khẩu
+            </div>
+
+            <div class="col-md-12 d-flex justify-content-between">
+                <div class="mt-2">Bạn đã có tài khoản? <a class="text-success" href="/Admin/Account/Create_Account">Đăng ký</a></div>
+                <input type="submit" value="Đăng nhập" class="btn btn-primary mt-2" />
+            </div>
+        </div>
+    }
+</div>
+@section scripts{
+    <script>
+        const { createApp, ref } = Vue;
+        createApp({
+            data() {
+                return {
+                    type_text: "text",
+                    type_password: "password",
+                    check: false
+                }
+            }
+        }).mount('#login');
+    </script>
+}
+
+

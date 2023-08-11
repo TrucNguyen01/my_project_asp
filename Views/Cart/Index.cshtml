@@ -1,0 +1,122 @@
+﻿@model List<WebApplication4.Models.GioHang>
+@{
+    ViewBag.Title = "Giỏ hàng";
+    double tong = 0;
+    var user = Session["User"] as WebApplication4.Models.Account;
+}
+<div class="container bg-body-tertiary" style="min-height: 70vh; font-size: 14px" id="test">
+    <div class="row">
+        <div class="col-md-9">
+            <h2 class="mx-2 my-2">Thông tin giỏ hàng</h2>
+            <hr />
+            <table class="table table-hover">
+                <tr>
+                    <th>ID</th>
+                    <th>Hình ảnh</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Đơn giá</th>
+                    <th>Số lượng</th>
+                    <th>Thành tiền</th>
+                    <th>Xoá</th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    double thanhtien = (int)item.SoLuongBan * (float)item.DonGiaBan;
+                    tong = tong + thanhtien;
+                <tr id="row_@item.id_giohang">
+                    <td>@item.id_giohang</td>
+                    <td><img src="~/image/@item.SanPham.Avatar" style="height: 60px" /></td>
+                    <td>@item.SanPham.TenSanPham</td>
+                    <td>@item.DonGiaBan</td>
+                    <td>@item.SoLuongBan</td>
+                    <td>@thanhtien</td>
+                    <td><button v-on:click="clickMe(@item.id_giohang, @thanhtien)" data-id="@item.id_giohang" class="bg-danger btnDelete" style="border: none"><i class="fa fa-trash-o"></i></button></td>
+                </tr>
+                        }
+                <tr>
+                    <th colspan="7">
+                        <div class="d-flex justify-content-center">
+                            @for (int i = 0; i < ViewBag.soTrang; i++)
+                            {
+                                if (ViewBag.Index == (i + 1))
+                                {
+                                    <div class="mx-1 active">
+                                        <button class="btn bg-primary"><a class="text-white" href="/Cart/Index?index=@(i+1)">@(i + 1)</a></button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="mx-1">
+                                        <button class="btn bg-primary-subtle"><a class="text-white" href="/Cart/Index?index=@(i+1)">@(i + 1)</a></button>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </th>
+                </tr>
+
+            </table>
+            <div class="my-2">
+                <a href="/Product/Index" class="text-white btn bg-primary">Tiếp tục mua hàng</a>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div>
+                @if (user != null)
+                {
+                    <a href="/Order/Index" class="btn bg-primary text-white my-4" style="margin-left: 40%">Danh sách đơn hàng</a>
+                }
+                else
+                {
+                    <a class="btn bg-secondary text-white my-4" style="margin-left: 40%; cursor: unset">Danh sách đơn hàng</a>
+                }
+            </div>
+            <div class="d-flex mx-1" style="height: 80px">
+                <h4 class="my-auto">Tổng tiền:</h4>
+                <h3 class="my-auto text-danger mx-2">{{total}}</h3>
+            </div>
+            <p>Mua hàng tại shop để có thể nhận được nhiều ưu đãi <i class="fa fa-heart"></i></p>
+            @if (user != null)
+            {
+                <form method="post" action="/Cart/Total_Cart">
+                    <textarea hidden name="total">{{total}}</textarea>
+                    <button v-bind:class="(total!=0)?'btn-primary':'btn-secondary'" class="w-100 btn btn-primary" v-bind:type="(total!=0)?'submit':'button'">Mua hàng</button>
+                </form>
+            }
+            else
+            {
+                <a class="w-100 btn btn-secondary" style="cursor:unset">Mua hàng</a>
+            }
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        const { createApp, ref } = Vue;
+        createApp({
+            data() {
+                return {
+                    total: @tong
+                }
+            },
+            methods: {
+                clickMe: function (id, price) {
+                    if (confirm("Bạn có muốn xoá sản phẩm này không?") === true) {
+                        $.ajax({
+                            url: '/Cart/Delete_Product_Cart',
+                            type: 'POST',
+                            data: { id: id },
+                            success: function (rs) {
+                                if (rs.success) {
+                                    $('#row_' + id).remove();
+                                    alert("Xoá sản phẩm thành công");
+                                }
+                            }
+                        });
+                    }
+                    this.total = this.total - price;
+                }
+            }
+        }).mount('#test');
+    </script>
+    }

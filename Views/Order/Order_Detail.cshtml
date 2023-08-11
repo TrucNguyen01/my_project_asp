@@ -1,0 +1,72 @@
+﻿@model WebApplication4.Models.DonHang
+@{
+    ViewBag.Title = "Chi tiết đơn hàng";
+    int stt = 0;
+    double tong = 0;
+    double ship = 30000;
+}
+
+<div class="container" >
+    <h2>Chi tiết đơn hàng</h2>
+    <div class="row mx-4 my-4">
+        <div class="col-md-2">
+            <div>Mã đơn hàng:</div>
+            <div>Tên khách hàng:</div>
+            <div>Số điện thoại:</div>
+            <div>Địa chỉ nhận hàng:</div>
+        </div>
+        <div class="col-md-8">
+            <div>@Model.id_DonHang</div>
+            <div>@Model.TenKhachHang</div>
+            <div>@Model.SoDienThoai</div>
+            <div>@Model.DiaChi</div>
+        </div>
+    </div>
+    <div class="row mx-5 my-4">
+        <table class="table">
+            <tr>
+                <td>STT</td>
+                <td>Hình ảnh</td>
+                <td>Tên sản phẩm</td>
+                <td>Số lượng</td>
+                <td>Đơn giá</td>
+                <td>Thành tiền</td>
+            </tr>
+            @foreach (var item in (List<WebApplication4.Models.GioHang>)ViewBag.list_product_order)
+            {
+                stt++;
+                double thanhtien = (int)item.SoLuongBan * (float)item.DonGiaBan;
+                tong = tong + thanhtien;
+                <tr style="height: 60px">
+                    <td>@stt</td>
+                    <td><img style="height: 50px" src="~/image/@item.SanPham.Avatar" /></td>
+                    <td>@item.SanPham.TenSanPham</td>
+                    <td>@item.SoLuongBan</td>
+                    <td>@item.DonGiaBan</td>
+                    <td>@thanhtien</td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="row" style="font-size: 18px">
+        <div class="col-md-8"></div>
+        <div class="col-md-2">
+            <div>Tổng cộng: </div>
+            <div>Voucher giảm giá:</div>
+            <div style="font-size: 16px">Phí vận chuyển:</div>
+            <div>Thành tiền:</div>
+        </div>
+        <div class="col-md-2">
+            <div>@tong</div>
+            <div>@ViewBag.GiamGia</div>
+            <div style="font-size: 16px">@ship</div>
+            @{
+                double ThanhTien = (double)tong - (double)ViewBag.GiamGia + (double)ship;
+            }
+            <div>@ThanhTien</div>
+            <a class="btn text-white bg-primary px-4 my-4" href="/Order/Index">Trở lại</a>
+
+        </div>
+    </div>
+</div>
+

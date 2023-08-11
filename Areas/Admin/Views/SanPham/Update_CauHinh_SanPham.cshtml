@@ -1,0 +1,110 @@
+﻿@model WebApplication4.Models.CauHinh
+@{
+    ViewBag.Title = "Sản phẩm / Cấu hình";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+}
+
+<div class="container-fluid" style="margin-top: 10px;">
+    <form method="post" action="/Admin/SanPham/Update_CauHinh_SanPham/@Model.id_cauhinh">
+        <div class="container-fluid">
+            <input hidden type="text" value="@Model.id_cauhinh" name="id_cauhinh" />
+            <div class="row">
+                <div class="col-lg-3" style="margin-bottom: 5px">
+                    @Html.LabelFor(row => row.ManHinh, "Thông số màn hình")
+                    @Html.TextBoxFor(row => row.ManHinh, new { @class = "form-control", placeholder = "Nhập thông số màn hình" })
+                </div>
+                <div class="col-lg-3" style="margin-bottom: 5px">
+                    @Html.LabelFor(row => row.DoPhanGiai, "Độ phân giải")
+                    @Html.TextBoxFor(row => row.DoPhanGiai, new { @class = "form-control", placeholder = "Nhập độ phân giải" })
+                </div>
+                <div class="col-lg-3" style="margin-bottom: 5px">
+                    @Html.LabelFor(row => row.CongNgheManHinh, "Công nghệ màn hình")
+                    @Html.TextBoxFor(row => row.CongNgheManHinh, new { @class = "form-control", placeholder = "Nhập công nghệ màn hình" })
+                </div>
+                <div class="col-lg-3" style="margin-bottom: 5px">
+                    @Html.LabelFor(row => row.RAM, "RAM")
+                    @Html.TextBoxFor(row => row.RAM, new { @class = "form-control", placeholder = "Nhập dung lượng RAM" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3" style="margin-bottom: 5px">
+                    @Html.LabelFor(row => row.CPU, "CPU")
+                    @Html.TextBoxFor(row => row.CPU, new { @class = "form-control", placeholder = "Nhập CPU" })
+                </div>
+                <div class="col-lg-3" style="margin-bottom: 5px">
+                    @Html.LabelFor(row => row.Chip, "Chip")
+                    @Html.TextBoxFor(row => row.Chip, new { @class = "form-control", placeholder = "Nhập Chip" })
+                </div>
+                <div class="col-lg-3" style="margin-bottom: 5px">
+                    @Html.LabelFor(row => row.BoNho, "Bộ nhớ")
+                    @Html.TextBoxFor(row => row.BoNho, new { @class = "form-control", placeholder = "Nhập dung lượng bộ nhớ" })
+                </div>
+                <div class="col-lg-3" style="margin-bottom: 5px">
+                    @Html.LabelFor(row => row.ChatLieu, "Chất liệu")
+                    @Html.TextBoxFor(row => row.ChatLieu, new { @class = "form-control", placeholder = "Nhập chất liệu" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3" style="margin-bottom: 5px">
+                    @Html.LabelFor(row => row.Camera, "Camera")
+                    @Html.TextBoxFor(row => row.Camera, new { @class = "form-control", placeholder = "Nhập Thông số camera" })
+                </div>
+                <div class="col-lg-3" style="margin-bottom: 5px">
+                    @Html.LabelFor(row => row.KichThuoc, "Kích thước")
+                    @Html.TextBoxFor(row => row.KichThuoc, new { @class = "form-control", placeholder = "Nhập kích thước" })
+                </div>
+                <div class="col-lg-3" style="margin-bottom: 5px">
+                    @Html.LabelFor(row => row.TrongLuong, "Trọng lượng")
+                    @Html.TextBoxFor(row => row.TrongLuong, new { @class = "form-control", placeholder = "Nhập trọng lượng" })
+                </div>
+                <div class="col-lg-3" style="margin-bottom: 5px">
+                    @Html.LabelFor(row => row.Pin, "Pin")
+                    @Html.TextBoxFor(row => row.Pin, new { @class = "form-control", placeholder = "Nhập dung lượng pin" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3" style="margin-bottom: 5px">
+                    @Html.LabelFor(row => row.HinhAnh_CPU, "Hình ảnh CPU")
+                    @Html.TextBoxFor(row => row.HinhAnh_CPU, new { @class = "form-control", type = "file" })
+                </div>
+                <div class="col-lg-3" style="margin-bottom: 5px">
+                    @Html.LabelFor(row => row.NoiDung_CPU, "Mô tả CPU")
+                    @Html.TextAreaFor(row => row.NoiDung_CPU, new { @class = "form-control", placeholder = "Nhập mô tả CPU", rows = "4" })
+                </div>
+                <div class="col-lg-3" style="margin-bottom: 5px">
+                    @Html.LabelFor(row => row.HinhAnh_RAM, "Hình ảnh RAM")
+                    @Html.TextBoxFor(row => row.HinhAnh_RAM, new { @class = "form-control", type = "file" })
+                </div>
+                <div class="col-lg-3" style="margin-bottom: 5px">
+                    @Html.LabelFor(row => row.NoiDung_RAM, "Mô tả RAM")
+                    @Html.TextAreaFor(row => row.NoiDung_RAM, new { @class = "form-control", placeholder = "Nhập mô tả RAM", rows = "4" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3" style="margin-bottom: 5px">
+                    @Html.LabelFor(row => row.HinhAnh_Camera, "Hình ảnh Camera")
+                    @Html.TextBoxFor(row => row.HinhAnh_Camera, new { @class = "form-control", type = "file" })
+                </div>
+                <div class="col-lg-3" style="margin-bottom: 5px">
+                    @Html.LabelFor(row => row.NoiDung_Camera, "Mô tả Camera")
+                    @Html.TextAreaFor(row => row.NoiDung_Camera, new { @class = "form-control", placeholder = "Nhập mô tả Camera", rows = "4" })
+                </div>
+                <div class="col-lg-3" style="margin-bottom: 5px">
+                    @Html.LabelFor(row => row.HinhAnh_Pin, "Hình ảnh Pin")
+                    @Html.TextBoxFor(row => row.HinhAnh_Pin, new { @class = "form-control", type = "file" })
+                </div>
+
+                <div class="col-lg-3" style="margin-bottom: 15px">
+                    @Html.LabelFor(row => row.NoiDung_Pin, "Mô tả Pin")
+                    @Html.TextAreaFor(row => row.NoiDung_Pin, new { @class = "form-control", placeholder = "Nhập mô tả Pin", rows = "4" })
+                </div>
+            </div>
+
+
+            <div class="col-lg-12">
+                <button type="submit" style="padding: 4px 10px; border: none" class="bg-primary pull-right">Hoàn thành</button>
+            </div>
+        </div>
+    </form>
+</div>
+

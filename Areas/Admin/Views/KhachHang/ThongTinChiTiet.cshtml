@@ -1,0 +1,62 @@
+﻿@model WebApplication4.Models.Account
+@{
+    ViewBag.Title = "Khách hàng / Thông tin chi tiết";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+}
+
+<div class="container pt-4 " id="customer">
+    <table class="table">
+        <tr>
+            <th>Họ tên</th>
+            <th>Địa chỉ</th>
+            <th>Số điện thoại</th>
+            <th>Email</th>
+            <th>Giới tính</th>
+            <th>Số đơn mua</th>
+            <th>Số đơn huỷ</th>
+            <th>Trạng thái</th>
+        </tr>
+        <tr>
+            <td>@Model.HoTen</td>
+            <td>@Model.DiaChi</td>
+            <td>@Model.SoDienThoai</td>
+            <td>@Model.Email</td>
+            <td>@if (Model.GioiTinh == 1)
+            {
+                <p>Nam</p>
+            }
+            else
+            {
+                <p>Nữ</p>
+            }</td>
+            <td>@Model.SoLanMuaHang</td>
+            <td>@Model.SoLanHuyHang</td>
+            <td><button class="bg-primary-subtle px-2" v-on:click="changeStatus(@Model.id_account)"><i v-bind:class="(check==1)?checkTrue:checkFalse"></i></button></td>
+        </tr>
+    </table>
+</div>
+@section scripts{
+    <script>
+        const { createApp, ref } = Vue;
+        createApp({
+            data() {
+                return {
+                    check: @Model.TrangThai,
+                    checkTrue: "fa fa-check text-success",
+                    checkFalse: "fa fa-times text-danger"
+                }
+            },
+            methods: {
+                changeStatus: function (id) {
+                    $.ajax({
+                        url: "/Admin/KhachHang/ChangeStatus",
+                        type: "POST",
+                        data: { id: id }
+                    });
+                    this.check = !this.check;
+                }
+            }
+        }).mount('#customer');
+    </script>
+    }
+

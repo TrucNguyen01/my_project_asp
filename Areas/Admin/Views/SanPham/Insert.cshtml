@@ -1,0 +1,84 @@
+﻿@model WebApplication4.Models.SanPham
+@{
+    ViewBag.Title = "Sản phẩm / Thêm sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+}
+
+<div class="container" style="margin-top: 10px;">
+    @using (Html.BeginForm("Insert", "SanPham", FormMethod.Post,
+        new { enctype = "multipart/dorm-data" }))
+    {
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6" style="margin-bottom: 25px">
+                @Html.LabelFor(row => row.Avatar, "Hình ảnh sản phẩm")
+                @Html.TextBoxFor(row => row.Avatar, new { @class = "form-control", type = "file" })
+            </div>
+            <div class="col-lg-6" style="margin-bottom: 25px">
+                @Html.LabelFor(row => row.TenSanPham, "Tên sản phẩm")
+                @Html.TextBoxFor(row => row.TenSanPham, new { @class = "form-control", placeholder = "Nhập tên sản phẩm" })
+                @Html.ValidationMessageFor(row => row.TenSanPham)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6" style="margin-bottom: 25px">
+                @Html.LabelFor(row => row.LoaiSanPham, "Loại sản phẩm")
+                <select class="form-control" name="LoaiSanPham">
+                    @foreach (var item in ViewBag.loaisanpham)
+                    {
+                        <option value="@item.id_loaisanpham">@item.TenLoai</option>
+                    }
+                </select>
+            </div>
+            <div class="col-lg-6" style="margin-bottom: 25px">
+                @Html.LabelFor(row => row.NhaCungCap, "Nhà cung cấp sản phẩm")
+                <select class="form-control" name="NhaCungCap">
+                    @foreach (var item in ViewBag.nhacungcap)
+                    {
+                        <option value="@item.id_nhacungcap">@item.TenNhaCungCap</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6" style="margin-bottom: 25px">
+                @Html.LabelFor(row => row.SoLuong, "Số lượng")
+                @Html.TextBoxFor(row => row.SoLuong, new { @class = "form-control", placeholder = "Nhập số lượng" })
+                @Html.ValidationMessageFor(row => row.SoLuong)
+            </div>
+            <div class="col-lg-6" style="margin-bottom: 25px">
+                @Html.LabelFor(row => row.Gia, "Giá sản phẩm")
+                @Html.TextBoxFor(row => row.Gia, new { @class = "form-control", placeholder = "Nhập giá sản phẩm" })
+                @Html.ValidationMessageFor(row => row.Gia)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6" style="margin-bottom: 25px">
+                @Html.LabelFor(row => row.GiaGiam, "Giá giảm sản phẩm")
+                @Html.TextBoxFor(row => row.GiaGiam, new { @class = "form-control", placeholder = "Nhập giá giảm sản phẩm" })
+                @Html.ValidationMessageFor(row => row.GiaGiam)
+            </div>
+            <div class="col-lg-6" style="margin-bottom: 25px">
+                @Html.LabelFor(row => row.DoHot, "Độ hot sản phẩm")
+                @Html.TextBoxFor(row => row.DoHot, new { @class = "form-control", placeholder = "Nhập độ hot của sản phẩm" })
+                @Html.ValidationMessageFor(row => row.DoHot)
+            </div>
+        </div>
+        <div class="col-lg-12" style="margin-bottom: 25px">
+            @Html.LabelFor(row => row.MoTa, "Mô tả sản phẩm")
+            @Html.TextAreaFor(row => row.MoTa, new { @class = "form-control", placeholder = "Nhập mô tả sản phẩm", rows = "5" })
+            @Html.ValidationMessageFor(row => row.MoTa)
+        </div>
+
+        <input hidden type="text" value="@DateTime.Now.ToString("yyyy-MM-dd")" name="NgayTao" />
+        <input hidden type="text" value="1" name="TrangThai" />
+        <input hidden type="text" value="0" name="SoLuongMua" />
+        
+
+        <div class="col-lg-12">
+            <button type="submit" style="padding: 4px 10px; border: none" class="bg-primary pull-right">Tiếp tục >></button>
+        </div>
+    </div>
+    }
+</div>
+

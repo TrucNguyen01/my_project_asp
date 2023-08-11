@@ -1,0 +1,49 @@
+﻿@model List<WebApplication4.Models.Comment>
+@{
+    ViewBag.Title = "Bình luận";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+}
+
+<div class="container pt-2">
+    <table class="table">
+        <tr>
+            <th>ID</th>
+            <th>Nội dung</th>
+            <th>Ngày tạo</th>
+            <th>Phản hồi</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.id_comment</td>
+                <td>@item.NoiDung</td>
+                <td>@item.NgayTao.ToString("dd/MM/yyyy")</td>
+                <td>
+                    <a class="btn bg-primary" href="/Admin/BinhLuan/PhanHoi/@item.id_comment">Phản hồi</a>
+                </td>
+            </tr>
+        }
+        <tr>
+            <th colspan="4">
+                <ul class="pagination">
+                    @for (int i = 0; i < ViewBag.SoTrang; i++)
+                    {
+                        if ((i + 1) == ViewBag.Index)
+                        {
+                            <li class="active">
+                                <a class="btn bg-primary text-white mx-1" href="/Admin/BinhLuan/Index?index=@(i + 1)">@(i + 1)</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a class="btn bg-primary-subtle text-white mx-1" href="/Admin/BinhLuan/Index?index=@(i + 1)">@(i + 1)</a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </th>
+        </tr>
+    </table>
+</div>
+

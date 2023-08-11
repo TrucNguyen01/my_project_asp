@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/font-awesome.css" rel="stylesheet" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <style>
+        i:hover, a:hover {
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        button {
+            border: 1px solid #cccc;
+        }
+
+        a {
+            color: black;
+            text-decoration: none;
+        }
+
+        .setHeight {
+            height: 500px;
+        }
+
+        .menu a {
+            color: grey;
+            padding: 10px;
+        }
+
+        .menu tr td {
+            margin-top: 20px;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+        }
+        .field-validation-error{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    @{ var admin = Session["Admin"] as WebApplication4.Models.Account;}
+    <div class="row">
+        <div class="col-md-2" style="height: 100vh; background: #333; color: #cccc">
+            <div style="display: flex">
+                <img style="height: 40px; border-radius: 20px; margin-top: 12px; margin-right: 10px" src="https://media.istockphoto.com/id/92280727/photo/lemon.jpg?s=612x612&w=0&k=20&c=gXq0WQkkFkWBURFVY8_S80-7O1vQ8krIl4Sy1JRVQ2c=" />
+                <h3 class="my-auto">Lemon Tree</h3>
+            </div>
+            <hr />
+            <div style="display: flex">
+                <i style="font-size: 45px" class="fa fa-user-circle-o"></i>
+                <h4 class="my-auto mx-2">@admin.HoTen</h4>
+            </div>
+            <hr />
+
+
+            <div class="menu" style="margin-left: 5px; font-size: 18px; cursor: pointer; height: 40%">
+                <table style="height: 100%">
+                    <tbody>
+                        <tr><td><a href="/Admin/News/Index"><i class="fa fa-th-list"> Tin tức</a></td></tr>
+                        <tr><td><a href="/Admin/NhaCungCap/Index"><i class="fa fa-th-list"> Nhà cung cấp</a></td></tr>
+                        <tr><td><a href="/Admin/SanPham/Index"><i class="fa fa-th-list"> Sản phẩm</a></td></tr>
+                        <tr><td><a href="/Admin/GiamGia/Index"><i class="fa fa-th-list"> Mã giảm giá</a></td></tr>
+                        <tr><td><a href="/Admin/BinhLuan/Index"><i class="fa fa-th-list"> Bình luận</a></td></tr>
+                        <tr><td><a href="/Admin/DonHang/Index"><i class="fa fa-th-list"> Đơn hàng</a></td></tr>
+                        <tr><td><a href="/Admin/KhachHang/Index"><i class="fa fa-th-list"> Khách hàng</a></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <div style="margin-left: 10px; margin-top: 40px; cursor: pointer">
+                <i class="fa fa-sign-out"></i> <a class="text-white" href="/Admin/Account/Remove_Session">Đăng xuất</a>
+            </div>
+        </div>
+        <div class="col-md-10" style="height: 100vh">
+            <div class="d-flex justify-content-between align-items-center" style=" height: 40px;">
+                <h3 class="my-auto">Trang chủ</h3>
+                <a href="/Admin/Account/Update_Account"><i style="font-size: 20px" class="fa fa-cog mx-4"></i></a>
+            </div>
+            <div class="w-100" style="display: flex; justify-content: space-between; margin-top: 20px; font-size: 20px; opacity: 0.8">
+                <p style="margin-left: 10px">@ViewBag.title</p>
+                <p style="font-size: 16px; margin-right: 10px">Trang chủ / @ViewBag.title</p>
+            </div>
+            <div class="w-100" style="background: #eeee; min-height: 84vh">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <script src="~/Content/plugin/ckfinder/ckfinder.js"></script>
+    <script src="~/Content/plugin/ckeditor/ckeditor.js"></script>
+    @RenderSection("scripts", required: false)
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.btnDelete', function () {
+                var id = $(this).data('id');
+                if (confirm("Bạn có muốn xoá @ViewBag.title này không") === true) {
+                    $.ajax({
+                        url: '/Admin/@ViewBag.url/Delete',
+                        type: 'POST',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                $('#row_' + id).remove();
+                                alert("Xoá @ViewBag.title thành công");
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+

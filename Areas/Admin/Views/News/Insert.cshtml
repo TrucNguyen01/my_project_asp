@@ -1,0 +1,39 @@
+﻿@model WebApplication4.Models.TinTuc
+@{
+    ViewBag.Title = "Tin Tức / Thêm mới";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+}
+<div class="container" style="margin-top: 10px; min-height: 86vh">
+    @using (Html.BeginForm("Insert", "News", FormMethod.Post,
+        new { enctype = "multipart/dorm-data" }))
+    {
+    <div class="container">
+        <div class="col-lg-12" style="margin-bottom: 10px">
+            @Html.LabelFor(row => row.HinhAnh, "Hình ảnh tiêu đề")
+            @Html.TextBoxFor(row => row.HinhAnh, new { @class = "form-control", placeholder = "Chọn hình ảnh cho bài viết", type = "file" })
+        </div>
+        <div class="col-lg-12" style="margin-bottom: 10px">
+            @Html.LabelFor(row => row.TieuDe, "Tiêu đề tin tức")
+            @Html.TextBoxFor(row => row.TieuDe, new { @class = "form-control", placeholder = "Nhập tiêu đề tin tức" })
+        </div>
+        <div class="col-lg-12" style="margin-bottom: 10px">
+            @Html.LabelFor(row => row.GioiThieu, "Giới thiệu tin tức")
+            @Html.TextBoxFor(row => row.GioiThieu, new { @class = "form-control", placeholder = "Nhập giới thiệu tin tức" })
+        </div>
+        <div class="col-lg-12" style="margin-bottom: 10px">
+            @Html.LabelFor(row => row.NoiDung, "Nội dung tin tức")
+            @Html.TextAreaFor(row => row.NoiDung, new { @class = "form-control", placeholder = "Nhập nội dung tin tức", rows = "12", id = "inputNoiDung" })
+        </div>
+        <input hidden type="text" value="@DateTime.Now.ToString("yyyy-MM-dd")" name="NgayTao" />
+        <div class="col-lg-12">
+            <button type="submit" style="padding: 4px 10px; border: none" class="bg-primary pull-right">Thêm mới</button>
+        </div>
+    </div>
+    }
+</div>
+@section scripts{
+    <script>
+        CKEDITOR.replace('inputNoiDung')
+    </script>
+    }
+

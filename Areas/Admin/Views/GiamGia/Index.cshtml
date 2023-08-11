@@ -1,0 +1,68 @@
+﻿@model List<WebApplication4.Models.GiamGia>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+}
+<div class="container" id="provide">
+    <div>
+        <a href="/Admin/GiamGia/Insert"><button style="margin: 15px; padding: 4px 10px; border: none" class="pull-right bg-primary"><i class="fa fa-plus"></i> Thêm mới</button></a>
+    </div>
+    <table class="table table-hover">
+        <caption></caption>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Code</th>
+                <th>Số tiền giảm</th>
+                <th>Số lần nhập</th>
+                <th>Số lần đã nhập</th>
+                <th>Đơn tối thiểu</th>
+                <th>Ngày hết hạn</th>
+                <th>Trạng thái</th>
+                <th>Sửa</th>
+                <th>Xoá</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr id="row_@item.id_magiamgia">
+                    <td>@item.id_magiamgia</td>
+                    <td>@item.code</td>
+                    <td>@item.SoTienGiam</td>
+                    <td>@item.SoLanNhap</td>
+                    <td>@item.SoLanDaNhap</td>
+                    <td>@item.DonHangToiThieu</td>
+                    <td>@item.NgayHetHan</td>
+                    <td>@item.TrangThai</td>
+                    <td><button class="bg-warning"><i class="fa fa-wrench">@Html.ActionLink(" Chỉnh sửa", "Update", new { id = item.id_magiamgia, controller = "GiamGia" })</i></button></td>
+                    <td>
+                            <button data-id="@item.id_magiamgia" class="delete bg-danger btnDelete"><i class="fa fa-trash-o"> Xoá</i></button>
+                    </td>
+                </tr>
+            }
+            <tr>
+                <th colspan="10">
+                    <ul class="pagination">
+                        @for (int i = 0; i < ViewBag.SoTrang; i++)
+                        {
+                            if ((i + 1) == ViewBag.Index)
+                            {
+                                <li class="active">
+                                    <a class="btn bg-primary mx-1 text-white" href="/Admin/GiamGia/Index?index=@(i + 1)">@(i + 1)</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a class="btn bg-primary-subtle mx-1 text-white" href="/Admin/GiamGia/Index?index=@(i + 1)">@(i + 1)</a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </th>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+

@@ -1,0 +1,36 @@
+﻿@model WebApplication4.Models.Comment
+@{
+    ViewBag.Title = "Phản hồi";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+}
+
+<div class="container">
+    <h4 style="padding-top: 20px">Thông tin sản phẩm</h4>
+    <table class="table">
+        <tr>
+            <td>Hình ảnh</td>
+            <td>Tên sản phẩm</td>
+            <td>Số lượng</td>
+            <td>Giá</td>
+            <td>Giá giảm</td>
+            <td>Giá bán</td>
+        </tr>
+        <tr>
+            <td><img src="~/image/@Model.SanPham.Avatar" style="height: 60px" /></td>
+            <td>@Model.SanPham.TenSanPham</td>
+            <td>@Model.SanPham.SoLuong</td>
+            <td>@Model.SanPham.Gia</td>
+            <td>@Model.SanPham.GiaGiam</td>
+            <td>@Model.SanPham.GiaBan</td>
+        </tr>
+    </table>
+    <h4>Lời phản hồi</h4>
+    <textarea readonly rows="4" class="w-100" style="outline: none">@Model.NoiDung</textarea>
+    <hr />
+    <h4 class="text-danger">Phản hồi khách hàng</h4>
+    <form class="w-100" method="post" action="/Admin/BinhLuan/PhanHoi">
+        <textarea name="NoiDung" rows="4" class="w-100" style="outline: none" placeholder="Nhập nội dung phản hồi"></textarea>
+        <button type="submit" class="btn bg-primary pull-right text-white">Phản hồi</button>
+    </form>
+</div>
+

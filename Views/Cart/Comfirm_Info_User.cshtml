@@ -1,0 +1,36 @@
+﻿@model WebApplication4.Models.DonHang
+@{
+    ViewBag.Title = "Xác nhận thông tin";
+    var user = Session["User"] as WebApplication4.Models.Account;
+}
+<div class="container" style="min-height: 80vh">
+    @using (Html.BeginForm("Comfirm_Info_User", "Cart", FormMethod.Post,
+        new { enctype = "multipart/dorm-data" }))
+    {
+    <div class="container">
+        <h2>Xác nhận thông tin khách hàng</h2>
+        <div class="col-lg-12 mb-3">
+            @Html.LabelFor(row => row.TenKhachHang, "Tên khách hàng")
+            @Html.TextBoxFor(row => row.TenKhachHang, new { @class = "form-control mt-1", placeholder = "Nhập tên khách hàng", value="5" })
+        </div>
+        <div class="col-lg-12 mb-3">
+            @Html.LabelFor(row => row.SoDienThoai, "Số điện thoại")
+            @Html.TextBoxFor(row => row.SoDienThoai, new { @class = "form-control mt-1", placeholder = "Nhập số điện thoại" })
+        </div>
+        <div class="col-lg-12 mb-3">
+            @Html.LabelFor(row => row.DiaChi, "Địa chỉ nhận hàng")
+            @Html.TextAreaFor(row => row.DiaChi, new { @class = "form-control mt-1", placeholder = "Nhập địa chỉ nhận hàng", rows = "4" })
+        </div>
+        <div class="col-lg-12 mb-3">
+            <label>Mã giảm giá</label>
+            <input class="form-control mt-1" placeholder = "Nhập mã giảm giá nếu có" type="text" name="codes" />
+
+
+        </div>
+        <div class="col-lg-12">
+            <button type="submit" style="padding: 4px 12px; border: none" class="bg-primary pull-right text-white">Xác nhận</button>
+        </div>
+    </div>
+    }
+</div>
+

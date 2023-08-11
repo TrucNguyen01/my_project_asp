@@ -1,0 +1,30 @@
+﻿@model WebApplication4.Models.NhaCungCap
+@{
+    ViewBag.Title = "Insert";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+}
+<div class="container" style="margin-top: 20px;">
+    @using (Html.BeginForm("Insert", "NhaCungCap", FormMethod.Post,
+        new { enctype = "multipart/dorm-data" }))
+    {
+    <div class="container">
+        <div class="col-lg-12" style="margin-bottom: 20px">
+            @Html.LabelFor(row => row.TenNhaCungCap, "Tên nhà cung cấp")
+            @Html.TextBoxFor(row => row.TenNhaCungCap, new { @class = "form-control", placeholder = "Nhập tên nhà cung cấp" })
+        </div>
+        <div class="col-lg-12"  style="margin-bottom: 20px">
+            @Html.LabelFor(row => row.DiaChi, "Đại chỉ nhà cung cấp")
+            @Html.TextBoxFor(row => row.DiaChi, new { @class = "form-control", placeholder = "Nhập địa chỉ nhà cung cấp" })
+        </div>
+        <div class="col-lg-12"  style="margin-bottom: 20px">
+            @Html.LabelFor(row => row.SoDienThoai, "Số điện thoại nhà cung cấp")
+            @Html.TextBoxFor(row => row.SoDienThoai, new { @class = "form-control", placeholder = "Nhập số điện thoại nhà cung cấp" })
+        </div>
+        <input hidden type="text" value="@DateTime.Now.ToString("yyyy-MM-dd")" name="NgayTao" />
+        <div class="col-lg-12">
+            <button type="submit" style="padding: 4px 10px; border: none" class="bg-primary pull-right">Thêm mới</button>
+        </div>
+    </div>
+    }
+</div>
+

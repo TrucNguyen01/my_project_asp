@@ -1,0 +1,60 @@
+﻿@model List<WebApplication4.Models.TinTuc>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+}
+<div class="container" id="provide">
+    <div>
+        <a href="/Admin/News/Insert"><button style="margin: 15px; padding: 4px 10px; border: none" class="pull-right bg-primary"><i class="fa fa-plus"></i> Thêm mới</button></a>
+    </div>
+    <table class="table table-hover">
+        <caption></caption>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Hình ảnh</th>
+                <th>Tiêu đề</th>
+                <th>Ngày tạo</th>
+                <th>Sửa</th>
+                <th>Xoá</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr id="row_@item.id_tintuc">
+                    <td>@item.id_tintuc</td>
+                    <td>@item.HinhAnh</td>
+                    <td>@item.TieuDe</td>
+                    <td>@item.NgayTao</td> 
+                    <td><button class="bg-warning"><i class="fa fa-wrench">@Html.ActionLink(" Chỉnh sửa", "Update", new { id = item.id_tintuc, controller = "News" })</i></button></td>
+                    <td>
+                            <button data-id="@item.id_tintuc" class="delete bg-danger btnDelete"><i class="fa fa-trash-o"> Xoá</i></button>
+                    </td>
+                </tr>
+            }
+            <tr>
+                <th colspan="6">
+                    <ul class="pagination">
+                        @for (int i = 0; i < ViewBag.SoTrang; i++)
+                        {
+                            if ((i + 1) == ViewBag.Index)
+                            {
+                                <li class="active">
+                                    <a class="btn bg-primary text-white" href="/Admin/TinTuc/Index?index=@(i + 1)">@(i + 1)</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a class="btn bg-body-secondary text-white" href="/Admin/TinTuc/Index?index=@(i + 1)">@(i + 1)</a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </th>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
